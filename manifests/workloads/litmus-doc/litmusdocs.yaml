@@ -17,13 +17,13 @@ spec:
         app: litmusdoc
     spec:
       containers:
-      - name: litmusdoc
-        image: litmuschaos/litmus-docs:master-d574cfb
-        imagePullPolicy: Always
-        ports:
-        - containerPort: 80
+        - name: litmusdoc
+          image: jonsy13/litmus-docs:1234
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
       imagePullSecrets:
-      - name: mayadatasecret2
+        - name: mayadatasecret2
 ---
 apiVersion: v1
 kind: Service
@@ -34,10 +34,9 @@ metadata:
   namespace: litmus-doc
 spec:
   ports:
-  - name: litmusdoc
-    port: 80
-    protocol: TCP
-    targetPort: 80
+    - name: litmusdoc
+      port: 80
+      protocol: TCP
+      targetPort: 80
   selector:
     app: litmusdoc
-
