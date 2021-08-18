@@ -1,0 +1,43 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: litmusdoc
+  namespace: litmus-doc
+  annotations:
+    fluxcd.io/automated: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: litmusdoc
+  template:
+    metadata:
+      labels:
+        app: litmusdoc
+    spec:
+      containers:
+      - name: litmusdoc
+        image: litmuschaos/litmus-docs:master-d574cfb
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+      imagePullSecrets:
+      - name: mayadatasecret2
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: litmusdoc
+  name: litmusdoc-service
+  namespace: litmus-doc
+spec:
+  ports:
+  - name: litmusdoc
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: litmusdoc
+
